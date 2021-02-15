@@ -7,4 +7,4 @@ This course serves as an introduction to modern web application development with
 | Part  | Exercises|
 | ---   | ---     |
 | 0     | 6/6     |     
-| __Total__ | __161/171__ |       
+| __Total__ | __6/6__ |       

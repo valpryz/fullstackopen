@@ -32,8 +32,6 @@ const Total = (props) => (
   </p>
 );
 
-export default Total;
-
 const App = () => {
   const course = {
     name: "Half Stack application development",

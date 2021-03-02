@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-const Button = ({ handleClick, text }) => {
-  return <button onClick={handleClick}>{text}</button>;
-};
+
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+);
 
 const App = (props) => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(new Array(6).fill(0));
 
-  const randomNumber = () => {
+  const randomNumber = () =>
     setSelected(Math.floor(Math.random() * props.anecdotes.length));
-  };
 
   const copy = [...votes];
 
-  const addVotes = () => {
-    setVotes(copy, (copy[selected] += 1));
-  };
+  const addVotes = () => setVotes(copy, (copy[selected] += 1));
 
   const maximum = Math.max(...copy);
 

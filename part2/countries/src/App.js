@@ -4,6 +4,7 @@ import axios from "axios";
 const App = () => {
   const [search, setSearch] = useState("");
   const [countries, setCountries] = useState([]);
+  const [countryShow, setCountryShow] = useState("");
 
   useEffect(() => {
     axios.get("https://restcountries.eu/rest/v2/all").then((response) => {
@@ -13,12 +14,15 @@ const App = () => {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    console.log(e.target.value);
   };
 
   const findCountries = countries.filter((country) => {
     return country.name.toLowerCase().includes(search);
   });
+
+  const handleClick = (id) => {
+    setCountryShow(id);
+  };
 
   const OneCountry = ({ country }) => {
     return (
@@ -45,11 +49,18 @@ const App = () => {
     if (countries.length > 10) {
       return <p>Too many matches, specify another filter</p>;
     }
-
     return (
       <div>
         {countries.map((country) => (
-          <p key={country.alpha3Code}>{country.name}</p>
+          <div key={country.nativeName}>
+            {country.name}{" "}
+            <button onClick={() => handleClick(country.nativeName)}>
+              Show
+            </button>
+            {countryShow === country.nativeName ? (
+              <OneCountry country={country} />
+            ) : null}
+          </div>
         ))}
       </div>
     );

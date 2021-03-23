@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import OneCountry from "./components/OneCountry";
+import ShownCountries from "./components/ShownCountries";
 
 const App = () => {
   const [search, setSearch] = useState("");
   const [countries, setCountries] = useState([]);
   const [countryShow, setCountryShow] = useState("");
 
-  useEffect(() => {
+  const getCountries = () => {
     axios.get("https://restcountries.eu/rest/v2/all").then((response) => {
       setCountries(response.data);
     });
-  }, []);
+  };
+
+  useEffect(getCountries, []);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -21,49 +25,11 @@ const App = () => {
   });
 
   const handleClick = (id) => {
-    setCountryShow(id);
-  };
-
-  const OneCountry = ({ country }) => {
-    return (
-      <div>
-        <h1>{country.name}</h1>
-        <p>capital {country.capital}</p>
-        <p>population {country.population}</p>
-        <h3>languages</h3>
-        <ul>
-          {country.languages.map((language) => (
-            <li key={language.nativeName}>{language.name}</li>
-          ))}
-        </ul>
-        <img src={country.flag} alt={`${country.name} flag`} width="150" />
-      </div>
-    );
-  };
-
-  const ShownCountries = ({ countries }) => {
-    if (!search) {
-      return null;
+    if (countryShow === id) {
+      setCountryShow("");
+    } else {
+      setCountryShow(id);
     }
-
-    if (countries.length > 10) {
-      return <p>Too many matches, specify another filter</p>;
-    }
-    return (
-      <div>
-        {countries.map((country) => (
-          <div key={country.nativeName}>
-            {country.name}{" "}
-            <button onClick={() => handleClick(country.nativeName)}>
-              Show
-            </button>
-            {countryShow === country.nativeName ? (
-              <OneCountry country={country} />
-            ) : null}
-          </div>
-        ))}
-      </div>
-    );
   };
 
   return (
@@ -75,7 +41,12 @@ const App = () => {
       {findCountries.length === 1 ? (
         <OneCountry country={findCountries[0]} />
       ) : (
-        <ShownCountries countries={findCountries} />
+        <ShownCountries
+          countries={findCountries}
+          search={search}
+          handleClick={handleClick}
+          countryShow={countryShow}
+        />
       )}
     </div>
   );

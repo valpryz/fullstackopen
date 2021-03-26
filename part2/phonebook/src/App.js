@@ -11,22 +11,30 @@ const App = () => {
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
-    });
+    axios
+      .get("http://localhost:3001/persons")
+      .then((response) => {
+        setPersons(response.data);
+      })
+      .catch((err) => new Error("incredible"));
   }, []);
 
   const addPerson = (e) => {
     e.preventDefault();
 
-    if (newName && !persons.some((e) => e.name === newName)) {
+    if (newName && newNumber && !persons.some((e) => e.name === newName)) {
       const person = {
         name: newName,
         number: newNumber,
       };
-      setPersons(persons.concat(person));
-      setNewName("");
-      setNewNumber("");
+      axios
+        .post("http://localhost:3001/persons", person)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((err) => new Error("incredible"));
     } else {
       alert(`${newName} is already added to phonebook`);
     }
@@ -45,7 +53,7 @@ const App = () => {
   };
 
   const filteredSearch = persons.filter((person) =>
-    person.name.toLowerCase().includes(searchText)
+    person.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (

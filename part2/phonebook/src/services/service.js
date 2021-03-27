@@ -11,14 +11,16 @@ const create = (person) => {
   return request.then((response) => response.data);
 };
 
-// const remove = (id) => {
-//   return axios.delete(baseUrl, id);
-// };
+const remove = (id) => {
+  return axios.delete(`${baseUrl}/${id}`);
+  // const request = axios.delete(`${baseUrl}/${id}`);
+  // return request.then((response) => console.log(response.data));
+};
 
 const services = {
   getAll,
   create,
-  // remove,
+  remove,
 };
 
 export default services;

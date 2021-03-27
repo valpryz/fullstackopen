@@ -40,6 +40,19 @@ const App = () => {
     }
   };
 
+  const removePerson = (id, name) => {
+    const result = window.confirm(`Delete ${name}`);
+    if (result) {
+      services.remove(id);
+      const posts = persons.filter((person) => {
+        return person.id !== id;
+      });
+      setPersons(posts);
+    } else {
+      return null;
+    }
+  };
+
   const handleNewName = (e) => {
     setNewName(e.target.value);
   };
@@ -69,7 +82,7 @@ const App = () => {
         handleNewNumber={handleNewNumber}
       />
       <h3>Numbers</h3>
-      <Persons arr={filteredSearch} />
+      <Persons personsList={filteredSearch} handleRemove={removePerson} />
     </div>
   );
 };

@@ -1,10 +1,15 @@
 import Person from "./Person";
+// import services from "../services/service";
 
-const Persons = ({ arr }) => {
+const Persons = ({ personsList, handleRemove }) => {
   return (
     <div>
-      {arr.map((p) => (
-        <Person man={p} key={p.name} />
+      {personsList.map((person) => (
+        <Person
+          man={person}
+          key={person.name}
+          handleClick={() => handleRemove(person.id, person.name)}
+        />
       ))}
     </div>
   );

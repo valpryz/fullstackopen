@@ -9,8 +9,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [message, setMessage] = useState("test");
-  const [successOrFailure, setSuccessOrFailure] = useState(false);
+  const [message, setMessage] = useState("");
+  const [successOrFailure, setSuccessOrFailure] = useState(null);
 
   useEffect(() => {
     services
@@ -58,20 +58,29 @@ const App = () => {
           number: newNumber,
         };
 
-        services.edit(editedPerson).then((updatedPerson) => {
-          setPersons(
-            persons
-              .filter((somebody) => somebody.name !== newName)
-              .concat(updatedPerson)
-          );
-          showNotification(
-            true,
-            `The number of ${updatedPerson.name} is successfuly changed`
-          );
-
-          setNewName("");
-          setNewNumber("");
-        });
+        services
+          .edit(editedPerson)
+          .then((updatedPerson) => {
+            setPersons(
+              persons
+                .filter((somebody) => somebody.name !== newName)
+                .concat(updatedPerson)
+            );
+            showNotification(
+              true,
+              `The number of ${updatedPerson.name} is successfuly changed`
+            );
+            setNewName("");
+            setNewNumber("");
+          })
+          .catch((error) => {
+            showNotification(
+              false,
+              `Information of ${editedPerson.name} has already been removed from server`
+            );
+            setNewName("");
+            setNewNumber("");
+          });
       }
     } else {
       if (!newName) {
@@ -117,16 +126,18 @@ const App = () => {
     setSuccessOrFailure(bool);
     setMessage(message);
     setTimeout(() => {
-      setSuccessOrFailure(!bool);
+      setSuccessOrFailure(null);
     }, 5000);
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      {successOrFailure && (
-        <div className={successOrFailure ? "success" : null}>{message}</div>
-      )}
+      {successOrFailure !== null && successOrFailure === true ? (
+        <div className={successOrFailure ? "success" : "error"}>{message}</div>
+      ) : successOrFailure !== null && successOrFailure === false ? (
+        <div className={successOrFailure ? "success" : "error"}>{message}</div>
+      ) : null}
       <Filter searchText={searchText} handleSearch={handleSearch} />
       <h3>Add a new</h3>
       <PersonForm

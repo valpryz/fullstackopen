@@ -1,5 +1,4 @@
 import Person from "./Person";
-// import services from "../services/service";
 
 const Persons = ({ personsList, handleRemove }) => {
   return (

@@ -9,6 +9,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [message, setMessage] = useState("test");
+  const [successOrFailure, setSuccessOrFailure] = useState(false);
 
   useEffect(() => {
     services
@@ -37,6 +39,7 @@ const App = () => {
           setPersons(persons.concat(newPerson));
           setNewName("");
           setNewNumber("");
+          showNotification(true, `Added ${newPerson.name}`);
         })
         .catch((err) => new Error("incredible"));
     } else if (
@@ -44,9 +47,8 @@ const App = () => {
       newNumber &&
       persons.some((somebody) => somebody.name === newName)
     ) {
-      const personToUpdate = {
-        ...persons.find((person) => person.name === newName),
-      };
+      const personToUpdate = persons.find((person) => person.name === newName);
+
       const confirmation = window.confirm(
         `${personToUpdate.name} is already added to phonebook, replace the old number with a new one ?`
       );
@@ -62,6 +64,11 @@ const App = () => {
               .filter((somebody) => somebody.name !== newName)
               .concat(updatedPerson)
           );
+          showNotification(
+            true,
+            `The number of ${updatedPerson.name} is successfuly changed`
+          );
+
           setNewName("");
           setNewNumber("");
         });
@@ -106,9 +113,20 @@ const App = () => {
     person.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
+  const showNotification = (bool, message) => {
+    setSuccessOrFailure(bool);
+    setMessage(message);
+    setTimeout(() => {
+      setSuccessOrFailure(!bool);
+    }, 5000);
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
+      {successOrFailure && (
+        <div className={successOrFailure ? "success" : null}>{message}</div>
+      )}
       <Filter searchText={searchText} handleSearch={handleSearch} />
       <h3>Add a new</h3>
       <PersonForm

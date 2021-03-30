@@ -22,10 +22,14 @@ const App = () => {
   const addPerson = (e) => {
     e.preventDefault();
 
-    if (newName && newNumber && !persons.some((e) => e.name === newName)) {
+    if (
+      newName &&
+      newNumber &&
+      !persons.some((somebody) => somebody.name === newName)
+    ) {
       const person = {
-        name: newName,
-        number: newNumber,
+        name: newName.trim(),
+        number: newNumber.trim(),
       };
       services
         .create(person)
@@ -35,18 +39,51 @@ const App = () => {
           setNewNumber("");
         })
         .catch((err) => new Error("incredible"));
+    } else if (
+      newName &&
+      newNumber &&
+      persons.some((somebody) => somebody.name === newName)
+    ) {
+      const personToUpdate = {
+        ...persons.find((person) => person.name === newName),
+      };
+      const confirmation = window.confirm(
+        `${personToUpdate.name} is already added to phonebook, replace the old number with a new one ?`
+      );
+      if (confirmation) {
+        const editedPerson = {
+          ...personToUpdate,
+          number: newNumber,
+        };
+
+        services.edit(editedPerson).then((updatedPerson) => {
+          setPersons(
+            persons
+              .filter((somebody) => somebody.name !== newName)
+              .concat(updatedPerson)
+          );
+          setNewName("");
+          setNewNumber("");
+        });
+      }
     } else {
-      alert(`${newName} is already added to phonebook`);
+      if (!newName) {
+        alert(`please add a name!`);
+      } else if (!newNumber) {
+        alert(`please add a number`);
+      } else {
+        alert(`${newName} is already added to phonebook`);
+      }
     }
   };
 
   const removePerson = (id, name) => {
-    const result = window.confirm(`Delete ${name}`);
+    const result = window.confirm(`Delete ${name} ?`);
     if (result) {
-      services.remove(id);
       const posts = persons.filter((person) => {
         return person.id !== id;
       });
+      services.remove(id);
       setPersons(posts);
     } else {
       return null;

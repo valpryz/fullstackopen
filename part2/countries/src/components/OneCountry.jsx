@@ -14,7 +14,7 @@ const OneCountry = ({ country }) => {
       .then((response) => {
         setWeather(response.data);
       });
-  }, []);
+  }, [country.capital]);
 
   return (
     <div>

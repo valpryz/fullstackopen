@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 
-const persons = [
+app.use(express.json());
+
+let persons = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -49,6 +51,29 @@ app.delete("/api/persons/:id", (req, res) => {
   const id = Number(req.params.id);
   const people = persons.filter((person) => person.id !== id);
   res.status(204).end();
+});
+
+app.post("/api/persons", (req, res) => {
+  const body = req.body;
+
+  if (!body.name || !body.number) {
+    return res.status(400).json({ error: "name or number is missing" });
+  }
+
+  const nameExists = (arr, name) => arr.some((person) => person.name === name);
+
+  if (nameExists(persons, body.name)) {
+    return res.status(400).json({ error: "name must be unique" });
+  }
+
+  const solePerson = {
+    id: Math.random() * 1000,
+    name: body.name,
+    number: body.number,
+  };
+
+  persons = persons.concat(solePerson);
+  res.json(persons);
 });
 
 const PORT = process.env.PORT || 3001;

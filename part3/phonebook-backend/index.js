@@ -44,6 +44,13 @@ app.get("/api/persons/:id", (req, res) => {
 app.get("/api/persons", (req, res) => {
   res.json(persons);
 });
+
+app.delete("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const people = persons.filter((person) => person.id !== id);
+  res.status(204).end();
+});
+
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT);

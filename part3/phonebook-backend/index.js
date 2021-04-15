@@ -35,6 +35,12 @@ app.get("/info", (req, res) => {
     `);
 });
 
+app.get("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const person = persons.find((person) => person.id === id);
+  person ? res.json(person) : res.status(204).end();
+});
+
 app.get("/api/persons", (req, res) => {
   res.json(persons);
 });

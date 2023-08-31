@@ -1,6 +1,9 @@
 import { useState } from 'react'
 
 const Statistics = (props) => {
+  if(props.total <= 0){
+    return <>No feedback given</>
+  }
   return (
     <>
       <span>good {props.good}</span> <br />
@@ -12,7 +15,6 @@ const Statistics = (props) => {
     </>
   )
 }
-
 
 const App = () => {
 

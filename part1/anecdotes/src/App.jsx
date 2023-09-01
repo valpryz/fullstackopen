@@ -20,6 +20,10 @@ const App = () => {
     setSelected(random)
   }
 
+  let max = Math.max(...count)
+
+  let indexOfMax = count.indexOf(max)
+
   const handleVote = () => {
     let newCount = [...count]
     newCount[selected] += 1
@@ -28,10 +32,14 @@ const App = () => {
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <span>{anecdotes[selected]}</span><br />
       <span>has {count[selected]} votes</span><br />
       <button onClick={handleVote}>vote</button>
       <button onClick={handleClick}>next anecdote</button>
+      <h1>Anecdote with the most votes</h1>
+      <span>{anecdotes[indexOfMax]}</span><br />
+      <span>has {count[indexOfMax]} votes</span>
     </div>
   )
 }

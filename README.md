@@ -9,6 +9,7 @@ Other topics include debugging applications, configuration, managing runtime env
 | Part      | Exercises |
 | --------- | --------- |
 | 0         | 6/6       |
-| **Total** | **6/6** |
+| 1         | 14/14     |
+| **Total** | **20/20** |
 
 <!-- https://github.com/jeremy-ebinum/full-stack-open-2020 -->

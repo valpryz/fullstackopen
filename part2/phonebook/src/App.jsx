@@ -30,14 +30,13 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const addedPerson = [
-      ...persons,
-      {name: newName, number: newNumber}
-    ]
+
     if(persons.some(person => newName.toLowerCase() === person.name.toLowerCase())){
       alert(`${newName} is already added to phonebook`)
     }else {
-      setPersons(addedPerson)
+      axios
+        .post("http://localhost:3000/persons", {name: newName, number: newNumber})
+        .then(response => setPersons([...persons, response.data]))
     }
     setNewName("")
     setNewNumber("")

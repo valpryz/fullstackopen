@@ -2,24 +2,25 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: "040-1234567" }
   ]) 
   const [newName, setNewName] = useState('')
-
-  const addName = (e) => {
-    setNewName(e.target.value)
-  }
+  const [newPhone, setNewPhone] = useState("")
+  const addName = (e) => setNewName(e.target.value)
+  const addPhone = (e) => setNewPhone(e.target.value)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const newPersons = {name: newName}
+    const newPersons = {name: newName, number: newPhone}
     if(persons.some(person => newName.toLowerCase() === person.name.toLowerCase())){
       window.alert(`${newName} is already added to phonebook`)
+      setNewName("")
+      setNewPhone("")
     }else {
       setPersons(persons.concat(newPersons))
       setNewName("")
+      setNewPhone("")
     }
-    
   }
 
   return (
@@ -29,12 +30,13 @@ const App = () => {
         <div>
           name: <input value={newName} onChange={addName}/>
         </div>
+        <div>number: <input value={newPhone} onChange={addPhone}/></div>
         <div>
           <button type="submit">add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person => <p key={person.name}>{person.name}</p>)}
+      {persons.map(person => <p key={person.name}>{person.name} {person.number}</p>)}
     </div>
   )
 }

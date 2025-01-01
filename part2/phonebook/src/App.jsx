@@ -13,8 +13,13 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const newPersons = {name: newName}
-    setPersons(persons.concat(newPersons))
-    setNewName("")
+    if(persons.some(person => newName.toLowerCase() === person.name.toLowerCase())){
+      window.alert(`${newName} is already added to phonebook`)
+    }else {
+      setPersons(persons.concat(newPersons))
+      setNewName("")
+    }
+    
   }
 
   return (

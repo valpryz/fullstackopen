@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
-import axios from "axios"
+import personService from './services/personService'
+
 
 const Filter = (props) => {
   const {search, onSearch} = props
@@ -46,23 +47,24 @@ const App = () => {
   const addPhone = (e) => setNewPhone(e.target.value)
 
   const fetchPersons = () => {
-    axios.get("http://localhost:3001/persons")
-      .then(response => setPersons(response.data))
+    personService.getAll()
+      .then(initialPersons => setPersons(initialPersons)
+      )
   }
 
   useEffect(fetchPersons, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const newPersons = {name: newName, number: newPhone}
+    const newPerson = {name: newName, number: newPhone}
     if(persons.some(person => newName.toLowerCase() === person.name.toLowerCase())){
       window.alert(`${newName} is already added to phonebook`)
       setNewName("")
       setNewPhone("")
     }else {
-      axios.post("http://localhost:3001/persons", newPersons)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      personService.create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
           setNewName("")
           setNewPhone("")
         })

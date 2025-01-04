@@ -1,21 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": "1"
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": "2"
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": "3"
-    },
-    {
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": "4"
@@ -38,12 +23,17 @@
     {
       "id": "7cd7",
       "name": "Gala Susy",
-      "number": "9348-2323"
+      "number": "2332"
     },
     {
-      "id": "5d1a",
-      "name": "Maxi Pedri",
-      "number": "08989-32332"
+      "id": "9ae1",
+      "name": "Galates Tatos",
+      "number": "234235-64-6-44"
+    },
+    {
+      "id": "1ed6",
+      "name": "Dan Abramov",
+      "number": "23222-4545--6"
     }
   ]
 }

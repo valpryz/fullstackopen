@@ -15,9 +15,9 @@ const PersonForm = (props) => {
   return (
     <form onSubmit={handleSubmit}>
         <div>
-          name: <input value={newName} onChange={addName}/>
+          name: <input value={newName} onChange={addName} required/>
         </div>
-        <div>number: <input value={newPhone} onChange={addPhone}/></div>
+        <div>number: <input value={newPhone} onChange={addPhone} required/></div>
         <div>
           <button type="submit">add</button>
         </div>
@@ -26,18 +26,26 @@ const PersonForm = (props) => {
 }
 
 const Person = (props) => {
-  const {person} = props
+  const {person, onClick} = props
   return (
-    <p key={person.name}>{person.name} {person.number}</p>
+      <div key={person.name}>{person.name} {person.number} 
+      <button onClick={onClick}>delete</button>
+    </div>
   )
 }
 
 const Persons = (props) => {
-  const {persons} = props
+  const {persons, handleDelete} = props
   return <div>
-      {persons.map(person => <Person key={person.name} person={person}/>)}
+      {persons.map(person => <Person key={person.name} person={person} onClick={() => {
+        if(window.confirm(`Delete ${person.name} ?`)){
+          handleDelete(person.id)
+          personService.deletePerson(person.id)
+        }
+        }}/>)}
   </div>
 }
+
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
@@ -57,8 +65,15 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const newPerson = {name: newName, number: newPhone}
-    if(persons.some(person => newName.toLowerCase() === person.name.toLowerCase())){
-      window.alert(`${newName} is already added to phonebook`)
+    if(persons.some(person => newName.toLowerCase().trim() === person.name.toLowerCase().trim())){
+      const personFinded = persons.find(person => person.name.toLowerCase().trim() === newName.toLowerCase().trim())
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with the new one?`)){
+        const updatedPerson = {...personFinded, number: newPhone}
+        personService.update(personFinded.id, updatedPerson)
+         .then(revisedPersons => {
+          setPersons(persons.map(person => person.id === personFinded.id ? revisedPersons : person))
+         })
+      }
       setNewName("")
       setNewPhone("")
     }else {
@@ -73,6 +88,11 @@ const App = () => {
 
   const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(search.toLowerCase()))
 
+  const deletePerson = (id) => {
+    const leavedPersons = persons.filter(person => person.id !== id)
+    setPersons(leavedPersons)
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -80,7 +100,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm handleSubmit={handleSubmit} newName={newName} newPhone={newPhone} addName={addName} addPhone={addPhone}/>
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons}/>
+      <Persons persons={filteredPersons} handleDelete={deletePerson}/>
     </div>
   )
 }

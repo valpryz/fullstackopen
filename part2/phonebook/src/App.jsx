@@ -28,7 +28,7 @@ const PersonForm = (props) => {
 const Person = (props) => {
   const {person, onClick} = props
   return (
-      <div key={person.name}>{person.name} {person.number} 
+      <div key={person.name}>{person.name} {person.number}{" "} 
       <button onClick={onClick}>delete</button>
     </div>
   )

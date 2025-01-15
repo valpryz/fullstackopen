@@ -103,6 +103,15 @@ const App = () => {
             setMessage(null)
           }, 5000)
          })
+         .catch(e => {
+          setMessage(`Information of ${personFinded.name} has already been removed from server`)
+          setMessageColor('red')
+          const leavedPersons = persons.filter(person => person.id !== personFinded.id)
+          setPersons(leavedPersons)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+         })
       }
       setNewName("")
       setNewPhone("")

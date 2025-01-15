@@ -1,24 +1,14 @@
 {
   "persons": [
     {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": "4"
-    },
-    {
       "id": "c961",
       "name": "Jesus de la Pinas",
       "number": "34234-657657"
     },
     {
-      "id": "a226",
-      "name": "Kirikou est Petit",
-      "number": "008-3432222"
-    },
-    {
       "id": "7cd7",
       "name": "Gala Susy",
-      "number": "97239723--2322"
+      "number": "3209843-23234"
     },
     {
       "id": "9ae1",
@@ -28,12 +18,17 @@
     {
       "id": "1ed6",
       "name": "Dan Abramov",
-      "number": "23222-4545--6"
+      "number": "2345345-35345"
     },
     {
-      "id": "66e1",
-      "name": "Azonto Rigobert",
-      "number": "2345345-34543"
+      "id": "ffc6",
+      "name": "Jean Charles",
+      "number": "234324-2423"
+    },
+    {
+      "id": "69f9",
+      "name": "Ekabouma Ekoko",
+      "number": " 098082-211"
     }
   ]
 }

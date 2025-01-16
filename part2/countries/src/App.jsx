@@ -20,6 +20,7 @@ const Country = (props) => {
 const App = () => {
   const [countries, setCountries] = useState([])
   const [search, setSearch] = useState('')
+  const [id, setId] = useState("")
 
   const fetchCountries = () => {
     axios.get("https://studies.cs.helsinki.fi/restcountries/api/all")
@@ -32,8 +33,10 @@ const App = () => {
     if(filteredCountries.length > 10) return "Too many matches, specify another filter"
 
     if(filteredCountries.length <= 10 && filteredCountries.length > 1) {
-      return filteredCountries.map(country => <p key={country.ccn3}>{country.name.common}</p>)
-    }
+      return  filteredCountries.map(country => <div key={country.name.common}>{country.name.common} {id !== country.ccn3 && <button onClick={() => setId(country.ccn3)}>{id === country.ccn3 ? "hide": "show"}</button>}
+        {id === country.ccn3 ? <Country country={country} key={country.name.common} /> : null}
+      </div>)     
+  }
 
     if(filteredCountries.length === 1) return <Country country={filteredCountries[0]} key={filteredCountries.ccn3}/>
     

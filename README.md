@@ -6,11 +6,14 @@ Other topics include debugging applications, configuration, managing runtime env
 
 ### Exercises done per round
 
+part 3 Phonebook Backend link https://github.com/valpryz/fullstackopen_part3_phonebook_backend
+
 | Part      | Exercises |
 | --------- | --------- |
 | 0         | 6/6       |
 | 1         | 14/14     |
 | 2         | 20/20     |
-| **Total** | **40/40** |
+| 3         | 22/22     |
+| **Total** | **62/62** |
 
 <!-- https://github.com/jeremy-ebinum/full-stack-open-2020 -->
